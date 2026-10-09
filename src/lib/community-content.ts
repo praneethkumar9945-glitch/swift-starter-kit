@@ -16,5 +16,5 @@ export function useCommunityContent() {
   }});
 }
 export function asExploreItem(row:CommunityContent,own:boolean,name='Community'):ExploreItem {
-  return {id:row.id,kind:row.kind==='reel'?'reel':'post',tag:'Community',img:row.kind==='reel'?'':row.urls[0]??'',video:row.kind==='reel'?row.urls[0]:undefined,images:row.kind==='post'?row.urls:undefined,text:row.kind==='tweet'?{headline:row.caption,bg:0}:undefined,caption:row.caption,creator:name,handle:own?'you':row.user_id,likes:0,comments:[],ageH:(Date.now()-Date.parse(row.created_at))/3600000};
+  return {id:row.id,kind:row.kind==='reel'?'reel':'post',tag:'Community',img:row.kind==='reel'?'':row.urls[0]??'',...(row.kind==='reel'&&row.urls[0]?{video:row.urls[0]}:{}),...(row.kind==='post'?{images:row.urls}:{}),...(row.kind==='tweet'?{text:{headline:row.caption,bg:0}}:{}),caption:row.caption,creator:name,handle:own?'you':row.user_id,likes:0,comments:[],ageH:(Date.now()-Date.parse(row.created_at))/3600000};
 }
